@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { searchAndProcess } from './sam.js'
+import UsagePanel from './UsagePanel.jsx'
 import './App.css'
 
 const PRESET_TOPICS = [
@@ -25,6 +26,7 @@ function App() {
   const [activeTopic, setActiveTopic] = useState(null)
   const [customQuery, setCustomQuery] = useState('')
   const [rawSearch, setRawSearch] = useState(null)
+  const [usageRefresh, setUsageRefresh] = useState(0)
 
   async function handleSearch(query, topicId) {
     setLoading(true)
@@ -47,6 +49,7 @@ function App() {
       setError(`오류 발생: ${err.message}`)
     } finally {
       setLoading(false)
+      setUsageRefresh((n) => n + 1)
     }
   }
 
@@ -172,6 +175,8 @@ function App() {
         <p>Powered by SAM API — soonsoon.ai</p>
         <p className="footer-sub">데이터 소스: JISHA, JAISH, 일본 후생노동성, 교육기관</p>
       </footer>
+
+      <UsagePanel refreshTrigger={usageRefresh} />
     </div>
   )
 }
