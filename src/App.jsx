@@ -3,6 +3,48 @@ import { searchAndProcess } from './sam.js'
 import UsagePanel from './UsagePanel.jsx'
 import './App.css'
 
+const ACCESS_CODE = 'soonsoon2026'
+const AUTH_KEY = 'snu_wemeet_auth'
+
+function AuthGate({ onAuth }) {
+  const [code, setCode] = useState('')
+  const [error, setError] = useState(false)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (code === ACCESS_CODE) {
+      sessionStorage.setItem(AUTH_KEY, 'true')
+      onAuth()
+    } else {
+      setError(true)
+      setTimeout(() => setError(false), 1500)
+    }
+  }
+
+  return (
+    <div className="auth-gate">
+      <div className="auth-card">
+        <span className="auth-icon">◆</span>
+        <h2 className="auth-title">Japan Safety Intelligence</h2>
+        <p className="auth-desc">테스트 접근 코드를 입력하세요</p>
+        <form onSubmit={handleSubmit} className="auth-form">
+          <input
+            type="password"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Access Code"
+            className={`auth-input ${error ? 'auth-error' : ''}`}
+            autoFocus
+          />
+          <button type="submit" className="auth-btn">입장</button>
+        </form>
+        {error && <p className="auth-error-msg">코드가 올바르지 않습니다</p>}
+        <p className="auth-footer">PoC — SNU WeMeet × i2max</p>
+      </div>
+    </div>
+  )
+}
+
 const PRESET_TOPICS = [
   { id: 'safety', label: '산업안전 규제', query: '일본 산업안전보건법 개정 최신' },
   { id: 'accident', label: '사고 사례', query: '일본 산업재해 사고 사례 분석' },
@@ -20,6 +62,7 @@ const CATEGORY_COLORS = {
 }
 
 function App() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(AUTH_KEY) === 'true')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -27,6 +70,10 @@ function App() {
   const [customQuery, setCustomQuery] = useState('')
   const [rawSearch, setRawSearch] = useState(null)
   const [usageRefresh, setUsageRefresh] = useState(0)
+
+  if (!authed) {
+    return <AuthGate onAuth={() => setAuthed(true)} />
+  }
 
   async function handleSearch(query, topicId) {
     setLoading(true)
