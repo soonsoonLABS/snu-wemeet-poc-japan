@@ -39,7 +39,7 @@ function AuthGate({ onAuth }) {
           <button type="submit" className="auth-btn">입장</button>
         </form>
         {error && <p className="auth-error-msg">코드가 올바르지 않습니다</p>}
-        <p className="auth-footer">PoC — SNU WeMeet × i2max</p>
+        <p className="auth-footer">PoC — SNU WeMeet</p>
       </div>
     </div>
   )
@@ -118,7 +118,7 @@ function App() {
           <p className="subtitle">
             일본 산업안전·교육 데이터 AI 분석 피드
           </p>
-          <span className="badge">PoC — SNU WeMeet × i2max</span>
+          <span className="badge">PoC — SNU WeMeet</span>
         </div>
       </header>
 

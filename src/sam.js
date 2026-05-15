@@ -1,4 +1,4 @@
-const SAM_API_KEY = "sam-45ae2ebb0617e7963d9d47f2db3ae47f306786e9b1ce9f98";
+const SAM_API_KEY = "sam-4a343cd123d67d70af3e7433cde4e2de2883756d350d9ae7";
 const SAM_BASE_URL = "https://sam.soonsoon.ai";
 
 // Usage tracker - persists in sessionStorage
